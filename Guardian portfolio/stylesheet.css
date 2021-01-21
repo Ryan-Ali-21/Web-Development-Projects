@@ -1,0 +1,146 @@
+body {
+  margin: auto;
+  text-align: center;
+  color: blue;
+}
+header{
+  display: flex;
+  width: auto;
+  height: 7vh;
+}
+#logo{
+  width: 20%;
+  background-image: url(./images/logo.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+#navbar {
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  background-color: white;
+  color: black;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  align-content: center;
+  font-family: 'Open Sans', sans-serif;
+}
+#navbar ul{
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  /*padding-top: 30px; */
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+#navbar a{
+  padding-top: 15px;
+  text-decoration: none;
+  color: black;
+}
+
+.image{
+  margin: auto;
+  height: 50vh;
+  width: 90%;
+  background-color: #357EC7;
+  position: relative;
+  overflow: hidden;
+}
+#plans{
+  height: 15vh;
+  width: 90%;
+  margin: auto;
+  color: black;
+  background-color: grey;
+  justify-content: space-around;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0 0 8px 8px;
+}
+
+.planthumb{
+  height: 15vh;
+  width: 17%;
+  /*margin-bottom: 1vh; */
+  border-radius: 0 0 12px 12px;
+}
+
+.planthumb img {
+  height: 13vh;
+  width: 100%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  object-fit: contain;
+  object-position: center;
+  justify-content: center;
+}
+
+.slide{
+  display: none;
+  object-fit: cover;
+  object-position: center;
+
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 45%;
+  width: 5%;
+  /*margin-top: -12px; */
+  margin: auto;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  background-color: rgba(0,0,0,0.3);
+}
+.prev{
+  left: 0;
+  /*margin-left: 5%;*/
+}
+.seemore{
+  text-decoration: none;
+  color: white;
+  position: absolute;
+  cursor: pointer;
+  top: 80%;
+  right: 0;
+  font-family: 'Open Sans', sans-serif;
+  background-color: rgba(0,0,0,0.3);
+  padding: 12px;
+  border-radius: 3px 0 0 3px;
+
+}
+.seemore:hover {
+  background-color: rgba(0,0,0,0.8);
+  border: 2px solid white;
+  transition: 0.6s ease;
+}
+
+.next {
+  right: 0;
+/*  margin-right: 5%; */
+  border-radius: 3px 0 0 3px;
+}
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+.planthumb:hover{
+  background-color: rgba(0,0,0,0.8);
+}
+.active{
+  background-color: rgba(0,0,0,0.5);
+}
+
+#navbar :hover{
+  background-color: rgb(192,192,192);
+}
