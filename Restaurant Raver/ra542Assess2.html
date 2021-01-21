@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script>
+        $(document).ready(function() {
+        //checks number of pages
+        no_of_pages();
+        //loads first page of results
+        getpage(1);
+        var placename;
+        $(".search").children(':button').click(function(){
+          placename = $(".search").children(':text').val();
+          search(placename);});
+
+
+
+
+        });
+        var totalpages=0;
+        //determines total number of pages
+        function no_of_pages(){
+          //totalpages =0;
+          $.get("https://www.cs.kent.ac.uk/people/staff/yh/co539/A2-data/hygiene.php",
+          {op:"pages"},
+          function(data) {
+            totalpages = data.pages;
+            pages(totalpages);
+          },
+          'json');
+          }
+
+        //adds buttons for pages
+        function pages(tpages){
+          for (var i = 1; i <= tpages; i++) {
+            var button =   '<button id="'+i+'" onclick="getpage('+i+')" >'+i+'</button>';
+            $("#pages").append(button);
+          }
+        }
+
+        //clears the current information in the table and loads it with new information from the requested page
+        function getpage(page_no) {
+          $.get("https://www.cs.kent.ac.uk/people/staff/yh/co539/A2-data/hygiene.php",
+          {op:"get", page:page_no},
+          function(data) {
+            $('table > tbody').empty();
+            $("table").append("<tr><th>Business name</th><th>Address</th><th>Type</th><th>Hygenie Rating</th><th>Date of Inspection</th>");
+
+            data.forEach((rest) => {
+              var button =   '<button id="'+rest.name+'"> Get Rating</button>';
+                                      $("table").append("<tr><td>"
+                                       + rest.name + "</td><td>" + rest.address+
+                                        "</td><td>"+rest.type+"</td><td>"+rest.rating+"</td><td>"+rest.date+"</td><td>"+button+"</td></tr>");});
+          },
+          'json');
+        }
+
+        function test(name) {
+          console.log(name);
+          $('#'+name).click(function() {
+            $(".modal").css('display', 'block');
+          });
+
+            console.log('#'+name);
+        }
+
+        function getRating(place) {
+          $.get("https://www.cs.kent.ac.uk/people/staff/yh/co539/A2-data/rating.php"
+          ,{business:place},function(data) {
+            console.log(data);
+            }
+          ,'json')
+
+        }
+
+        //search function
+        function search(placename){
+        $.get("https://www.cs.kent.ac.uk/people/staff/yh/co539/A2-data/hygiene.php",{op:"search",name:placename},
+        function (data){
+          //test results
+          if (data.length<1) {
+          alert("no results found");
+          }
+          else {
+            $('table').empty();
+            $("table").append("<tr><th>Business name</th><th>Address</th><th>Type</th><th>Hygenie Rating</th><th>Date of Inspection</th>");
+            data.forEach((rest) => {
+              var button =   '<button id="'+rest.name+'" onclick="test('+rest.name+')"> Get Rating</button>';
+                                      $("table").append("<tr><td>"
+                                       + rest.name + "</td><td>" + rest.address+
+                                        "</td><td>"+rest.type+"</td><td>"+rest.rating+"</td><td>"+rest.date+"</td><td>"+button+"</td></tr>");});
+          }
+
+
+
+        },'JSON')
+        }
+
+      </script>
+      <style>
+      *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+        body{
+          margin: auto;
+          text-align: center;
+          font-family: 'Open Sans', sans-serif;
+          background-image: linear-gradient(120deg,#f6d365,#fda085);
+        }
+        header{
+          font-weight: bolder;
+          font-size: 1.5rem;
+        }
+        .description{
+          font-size: 1.0rem;
+        }
+        table{
+          margin: auto;
+        }
+        #pages{
+          display: flex;
+          justify-content: center;
+        }
+
+        /* The Modal (background) */
+.modal {
+ display: none;
+ position: fixed;
+ z-index: 1;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ overflow: auto;
+ background-color: rgb(0,0,0);
+ background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+ background-color: #fefefe;
+ margin: 15% auto; /* 15% from the top and centered */
+ padding: 20px;
+ border: 1px solid #888;
+ width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+ color: #aaa;
+ float: right;
+ font-size: 28px;
+ font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+ color: black;
+ text-decoration: none;
+ cursor: pointer;
+}
+
+input{
+  padding:0.5rem;
+  font-size: 1rem;
+  border:none;
+  background: white;
+  border-radius: 3px;
+}
+button{
+  border:none;
+  border-radius: 3px;
+  padding:0.5rem;
+  font-size: 1rem;
+  color: #d88771;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+button:hover{
+  background: #d88771;
+  color: white;
+}
+
+      </style>
+    <title>Restaurant Rave</title>
+  </head>
+  <body>
+    <header>
+      Restaurant Rave
+    </header>
+    <div class="description">
+      This site uses data from the Food Standards Agency and makes hygiene
+      inspections publicly available.
+    </div>
+    <div class="search">
+        <input type="text" placeholder="Business Name">
+        <button type="button "id="searchButton">Search</button>
+
+    </div>
+    <div class="resulttable">
+      <table>
+      </table>
+    <div id="myModal"class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+      </div>
+    </div>
+    </div>
+    <ul id="pages">
+
+    </ul>
+
+  </body>
+</html>
